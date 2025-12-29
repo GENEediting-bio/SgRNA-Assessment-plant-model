@@ -69,14 +69,12 @@ pip install -r requirements.txt
 - **目标列**：包含要预测的数值标签（如："CRISPRscan"、"Doench2016_RuleSet2" 等）
 
 **可选列：**
-- 任何数值列（如："GC_content"、"length"、"E-CRISP"、"DeepCRISPR_Approx" 等）将自动作为辅助特征使用
+- 任何数值列用户可根据数据特征自行计算，计算结果将自动作为辅助特征使用
 
 #### 示例 CSV 格式
 
 以您提供的 `test.csv` 为例：
 
-| sequence | EPI | CRISPRscan | Doench2016_RuleSet2 | E-CRISP | DeepCRISPR_Approx | CRISPOR_Specificity |
-|----------|-----|------------|-------------------|----------|-------------------|---------------------|
 | AGTTGGTGATTATCTGTAGG | 6 | 0.83 | 0.663 | 0.62 | 0.78 | 0.2498 |
 | GAGCATGTGTGCTACGTGCA | 7 | 1 | 0.5952 | 0.61 | 0.8083 | 0 |
 | GTTGAACTTGGAGCAATGAT | 0 | 0.35 | 0.583 | 0.575 | 0.7133 | 0.3129 |
@@ -90,7 +88,7 @@ pip install -r requirements.txt
 
 ```bash
 python train_nt_regression.py \
-  --model_name "InstaDeepAI/nucleotide-transformer-500m-multi-species" \
+  --model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species \
   --train_csv ./data/train.csv \
   --dev_csv ./data/dev.csv \
   --test_csv ./data/test.csv \
@@ -106,7 +104,7 @@ python train_nt_regression.py \
 
 ```bash
 python evaluate_nt_regression.py \
-  --model_name "InstaDeepAI/nucleotide-transformer-500m-multi-species" \
+  --model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species \
   --test_csv ./data/test.csv \
   --ckpt_path ./checkpoints/best_model.pth \
   --target_col CRISPRscan \
