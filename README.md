@@ -43,17 +43,17 @@ TTTTAAAAAA,0.2,10,0.31
 ### 运行训练
 
 ```bash
-python train_nt_regression.py \
-  --model_name "InstaDeepAI/nucleotide-transformer-500m-multi-species" \
-  --train_csv ./data/train.csv \
-  --dev_csv ./data/dev.csv \
-  --test_csv ./data/test.csv \
-  --target_col CRISPRscan \
-  --epochs 10 \
-  --batch_size 16 \
-  --lr 5e-5 \
-  --max_length 100 \
-  --ckpt_dir ./checkpoints
+python finetune_nt_pytorch_multifeature.py /
+--model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species /
+--train_csv data/train.csv /
+--dev_csv data/dev.csv /
+--test_csv data/test.csv /
+--batch_size 32 /
+--epochs 120 /
+--lr 0.1 /
+--max_length 64 /
+--freeze_backbone /
+--ckpt_dir lr_0.1 /
 ```
 
 ### 命令行参数详解
