@@ -1,91 +1,91 @@
-# Nucleotide Transformer 回归模型微调与评估框架
+# Nucleotide Transformer Regression Model Fine-tuning and Evaluation Framework
 
-基于 Nucleotide Transformer 预训练模型的回归任务微调与评估框架，用于预测 CRISPR sgRNA 活性等生物序列相关数值。本框架支持完整的训练流程和专业的科学绘图输出。
+A fine-tuning and evaluation framework for regression tasks based on the Nucleotide Transformer pre-trained model, used for predicting CRISPR sgRNA activity and other biological sequence-related numerical values. This framework supports a complete training pipeline and professional scientific plotting output.
 
-## 特性
+## Features
 
-### 🧬 模型支持
-- 支持多种 Nucleotide Transformer 变体 (NT, ESM, DNABERT 等)
-- 灵活的模型架构，可扩展附加特征
-- 支持冻结预训练骨干网络
+### 🧬 Model Support
+- Supports various Nucleotide Transformer variants (NT, ESM, DNABERT, etc.)
+- Flexible model architecture, expandable with additional features
+- Supports freezing pre-trained backbone network
 
-### 📊 数据处理
-- 自动检测序列列和目标列
-- 智能处理数值特征
-- 自动处理缺失值和异常值
-- 支持多种输入格式
+### 📊 Data Processing
+- Automatic detection of sequence column and target column
+- Intelligent handling of numerical features
+- Automatic handling of missing values and outliers
+- Supports multiple input formats
 
-### 🔄 训练流程
-- 完整的训练-验证-测试流程
-- 学习率调度器支持
-- 早停机制
-- 自动保存最佳模型检查点
+### 🔄 Training Pipeline
+- Complete train-validation-test pipeline
+- Learning rate scheduler support
+- Early stopping mechanism
+- Automatic saving of best model checkpoints
 
-### 📈 评估与可视化
-- 全面的回归评估指标
-- 专业科学绘图（PDF格式）
-- 多种可视化分析
-- 结果可重复性保证
+### 📈 Evaluation and Visualization
+- Comprehensive regression evaluation metrics
+- Professional scientific plotting (PDF format)
+- Multiple visualization analyses
+- Result reproducibility guarantee
 
-## 项目结构
+## Project Structure
 
 ```
 nucleotide-transformer-regression/
-├── train_nt_regression.py      # 主训练脚本
-├── evaluate_nt_regression.py   # 评估与可视化脚本
-├── requirements.txt            # 依赖包列表
-├── README.md                   # 本文档
-├── checkpoints/               # 模型保存目录
-├── sci_plots_pdf/             # 可视化输出目录
-└── data/                      # 数据目录（示例）
+├── train_nt_regression.py      # Main training script
+├── evaluate_nt_regression.py   # Evaluation and visualization script
+├── requirements.txt            # Dependency list
+├── README.md                   # This document
+├── checkpoints/               # Model save directory
+├── sci_plots_pdf/             # Visualization output directory
+└── data/                      # Data directory (example)
     ├── train.csv
     ├── dev.csv
     └── test.csv
 ```
 
-## 快速开始
+## Quick Start
 
-### 安装依赖
+### Install Dependencies
 
 ```bash
-# 安装基础依赖
+# Install basic dependencies
 pip install torch transformers pandas numpy scipy scikit-learn tqdm matplotlib seaborn
 ```
 
-或者使用提供的 requirements.txt：
+Or use the provided requirements.txt:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 数据准备
+### Data Preparation
 
-#### 输入文件格式
+#### Input File Format
 
-模型需要三个 CSV 文件：**训练集、验证集、测试集**。CSV 文件应包含以下列：
+The model requires three CSV files: **training set, validation set, test set**. CSV files should contain the following columns:
 
-**必需列：**
-- `sequence` 或 `seq`：DNA/RNA 序列字符串（如："ATCGATCGAT"）
-- **目标列**：包含要预测的数值标签（如："CRISPRscan"、"Doench2016_RuleSet2" 等）
+**Required columns:**
+- `sequence` or `seq`: DNA/RNA sequence string (e.g., "ATCGATCGAT")
+- **Target column**: Contains the numerical labels to predict (e.g., "CRISPRscan", "Doench2016_RuleSet2", etc.)
 
-**可选列：**
-- 任何数值列用户可根据数据特征自行计算，计算结果将自动作为辅助特征使用
+**Optional columns:**
+- Any numerical columns users can compute based on data characteristics, results will automatically be used as auxiliary features
 
-#### 示例 CSV 格式
+#### Example CSV Format
 
-以您提供的 `test.csv` 为例：
-| sequence | 特征... |
+Using your provided `test.csv` as an example:
+| sequence | Features... |
 |----------|------------|
 | AGTTGGTGATTATCTGTAGG | 6 |
 | GAGCATGTGTGCTACGTGCA | 7 |
 | GTTGAACTTGGAGCAATGAT | 0 |
 
-在这个例子中：
-- `sequence`：序列列（必需）
-- `CRISPRscan`：目标列（您要预测的值）
-- 其他数值列（`EPI`, `Doench2016_RuleSet2`, `E-CRISP`, `DeepCRISPR_Approx`, `CRISPOR_Specificity`）：将作为辅助特征
+In this example:
+- `sequence`: Sequence column (required)
+- `CRISPRscan`: Target column (the value you want to predict)
+- Other numerical columns (`EPI`, `Doench2016_RuleSet2`, `E-CRISP`, `DeepCRISPR_Approx`, `CRISPOR_Specificity`): Will be used as auxiliary features
 
-### 训练模型
+### Train Model
 
 ```bash
 python train_nt_regression.py \
@@ -101,7 +101,7 @@ python train_nt_regression.py \
   --ckpt_dir ./checkpoints
 ```
 
-### 评估和可视化
+### Evaluate and Visualize
 
 ```bash
 python evaluate_nt_regression.py \
@@ -112,96 +112,95 @@ python evaluate_nt_regression.py \
   --output_dir ./sci_plots_pdf
 ```
 
-## 详细参数说明
+## Detailed Parameter Description
 
-### 训练脚本参数 (`train_nt_regression.py`)
+### Training Script Parameters (`train_nt_regression.py`)
 
-| 参数 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `--model_name` | str | **必需** | HuggingFace 模型名称或本地路径 |
-| `--train_csv` | str | **必需** | 训练集 CSV 文件路径 |
-| `--dev_csv` | str | **必需** | 验证集 CSV 文件路径 |
-| `--test_csv` | str | **必需** | 测试集 CSV 文件路径 |
-| `--target_col` | str | "CRISPRscan" | 目标列名称 |
-| `--batch_size` | int | 16 | 训练批量大小 |
-| `--epochs` | int | 10 | 训练轮数 |
-| `--lr` | float | 5e-5 | 学习率 |
-| `--max_length` | int | 100 | 序列最大长度 |
-| `--ckpt_dir` | str | "checkpoints" | 模型保存目录 |
-| `--freeze_backbone` | flag | False | 冻结预训练模型参数 |
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `--model_name` | str | **Required** | HuggingFace model name or local path |
+| `--train_csv` | str | **Required** | Training set CSV file path |
+| `--dev_csv` | str | **Required** | Validation set CSV file path |
+| `--test_csv` | str | **Required** | Test set CSV file path |
+| `--target_col` | str | "CRISPRscan" | Target column name |
+| `--batch_size` | int | 16 | Training batch size |
+| `--epochs` | int | 10 | Training epochs |
+| `--lr` | float | 5e-5 | Learning rate |
+| `--max_length` | int | 100 | Maximum sequence length |
+| `--ckpt_dir` | str | "checkpoints" | Model save directory |
+| `--freeze_backbone` | flag | False | Freeze pre-trained model parameters |
 
-### 评估脚本参数 (`evaluate_nt_regression.py`)
+### Evaluation Script Parameters (`evaluate_nt_regression.py`)
 
-| 参数 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `--model_name` | str | **必需** | HuggingFace 模型名称或本地路径 |
-| `--test_csv` | str | **必需** | 测试集 CSV 文件路径 |
-| `--ckpt_path` | str | **必需** | 模型权重文件路径 |
-| `--target_col` | str | "CRISPRscan" | 目标列名称 |
-| `--max_length` | int | 100 | 序列最大长度 |
-| `--output_dir` | str | "sci_plots_pdf" | 输出目录 |
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `--model_name` | str | **Required** | HuggingFace model name or local path |
+| `--test_csv` | str | **Required** | Test set CSV file path |
+| `--ckpt_path` | str | **Required** | Model weight file path |
+| `--target_col` | str | "CRISPRscan" | Target column name |
+| `--max_length` | int | 100 | Maximum sequence length |
+| `--output_dir` | str | "sci_plots_pdf" | Output directory |
 
-## 输出文件说明
+## Output File Description
 
-### 训练过程输出
+### Training Process Output
 
-#### 1. 终端输出
+#### 1. Terminal Output
 ```
 Epoch 5/10
   [Train] Loss: 0.0321
   [Val]   MSE: 0.0356 | MAE: 0.1521 | R2: 0.8523
           Pearson: 0.9234 | Spearman: 0.9125
-  >>> 新的最佳模型已保存 (Pearson: 0.9234)
+  >>> New best model saved (Pearson: 0.9234)
 ```
 
-#### 2. 模型检查点
+#### 2. Model Checkpoints
 ```
 checkpoints/
-└── best_model.pth    # PyTorch 模型权重文件（最佳模型）
+└── best_model.pth    # PyTorch model weight file (best model)
 ```
 
-### 评估过程输出
+### Evaluation Process Output
 
-#### 1. 预测结果文件
+#### 1. Prediction Results File
 ```
 sci_plots_pdf/
-└── prediction_results.csv    # 详细的预测结果
+└── prediction_results.csv    # Detailed prediction results
 ```
 
-**prediction_results.csv 示例：**
+**prediction_results.csv example:**
 | sequence | true_value | predicted_value |
 |----------|------------|-----------------|
 | AGTTGGTGATTATCTGTAGG | 0.83 | 0.812 |
 | GAGCATGTGTGCTACGTGCA | 1.00 | 0.956 |
 | GTTGAACTTGGAGCAATGAT | 0.35 | 0.324 |
 
-#### 2. 科学可视化图表（PDF格式）
+#### 2. Scientific Visualization Charts (PDF Format)
 
-| 文件名 | 图表类型 | 说明 |
-|--------|----------|------|
-| **Fig1_DensityScatter.pdf** | 密度散点图 | 预测值与真实值的散点图，包含回归线和主要指标 |
-| **Fig2_Residuals.pdf** | 残差图 | 残差分析，检查模型偏差 |
-| **Fig3_Distribution.pdf** | 分布对比图 | 预测值与真实值分布的核密度估计 |
-| **Fig4_QuartileBoxplot.pdf** | 四分位箱线图 | 按真实值四分位数分组的预测性能 |
-| **Fig5_MetricsBar.pdf** | 指标柱状图 | 主要评估指标的柱状图展示 |
+| Filename | Chart Type | Description |
+|----------|------------|-------------|
+| **Fig1_DensityScatter.pdf** | Density Scatter Plot | Scatter plot of predicted vs. true values, including regression line and main metrics |
+| **Fig2_Residuals.pdf** | Residual Plot | Residual analysis to check model bias |
+| **Fig3_Distribution.pdf** | Distribution Comparison Plot | Kernel density estimation of predicted vs. true value distributions |
+| **Fig4_QuartileBoxplot.pdf** | Quartile Boxplot | Prediction performance grouped by true value quartiles |
+| **Fig5_MetricsBar.pdf** | Metrics Bar Chart | Bar chart display of main evaluation metrics |
 
+## Evaluation Metrics Explanation
 
-## 评估指标解释
+| Metric | Range | Interpretation | Applicable Scenarios |
+|--------|-------|----------------|----------------------|
+| **MSE/RMSE** | [0, +∞) | Mean Squared Error/Root Mean Squared Error, penalizes large errors | High numerical precision requirements |
+| **MAE** | [0, +∞) | Mean Absolute Error, intuitive error magnitude | High robustness requirements |
+| **R²** | (-∞, 1] | Coefficient of determination, model explanatory power | Model goodness of fit |
+| **Pearson R** | [-1, 1] | Linear correlation coefficient | Linear trend prediction |
+| **Spearman R** | [-1, 1] | Rank correlation coefficient | Ranking/ordering prediction |
 
-| 指标 | 范围 | 解释 | 适用场景 |
-|------|------|------|----------|
-| **MSE/RMSE** | [0, +∞) | 均方误差/均方根误差，惩罚大误差 | 数值精确度要求高 |
-| **MAE** | [0, +∞) | 平均绝对误差，直观误差大小 | 稳健性要求高 |
-| **R²** | (-∞, 1] | 决定系数，模型解释力 | 模型拟合优度 |
-| **Pearson R** | [-1, 1] | 线性相关系数 | 线性趋势预测 |
-| **Spearman R** | [-1, 1] | 等级相关系数 | 排序/排名预测 |
+## Usage Examples
 
-## 使用示例
-
-### 示例1：预测 CRISPRscan 分数
+### Example 1: Predicting CRISPRscan Scores
 
 ```bash
-# 1. 训练模型
+# 1. Train model
 python train_nt_regression.py \
   --model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species \
   --train_csv ./data/train.csv \
@@ -211,7 +210,7 @@ python train_nt_regression.py \
   --epochs 15 \
   --batch_size 32
 
-# 2. 评估模型
+# 2. Evaluate model
 python evaluate_nt_regression.py \
   --model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species \
   --test_csv ./data/test.csv \
@@ -220,21 +219,21 @@ python evaluate_nt_regression.py \
   --output_dir ./results_CRISPRscan
 ```
 
-### 示例2：预测 Doench2016_RuleSet2 分数（使用附加特征）
+### Example 2: Predicting Doench2016_RuleSet2 Scores (Using Additional Features)
 
 ```bash
-# 训练时自动使用其他数值列作为特征
+# Automatically use other numerical columns as features during training
 python train_nt_regression.py \
   --model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species \
   --train_csv ./data/train.csv \
   --dev_csv ./data/dev.csv \
   --test_csv ./data/test.csv \
   --target_col Doench2016_RuleSet2 \
-  --freeze_backbone \  # 小数据集建议冻结骨干
+  --freeze_backbone \  # Recommend freezing backbone for small datasets
   --lr 1e-4
 ```
 
-### 示例3：批量评估多个模型
+### Example 3: Batch Evaluate Multiple Models
 
 ```bash
 #!/bin/bash
@@ -256,19 +255,19 @@ for MODEL in "${MODEL_NAMES[@]}"; do
 done
 ```
 
-## 进阶配置
+## Advanced Configuration
 
-### 自定义模型配置
+### Custom Model Configuration
 
 ```python
-# 在代码中修改模型架构
+# Modify model architecture in code
 class CustomRegressionModel(nn.Module):
     def __init__(self, model_name, num_numerical_features=0, dropout=0.1):
         super().__init__()
-        # 自定义回归头
+        # Custom regression head
         self.regressor = nn.Sequential(
             nn.Dropout(dropout),
-            nn.Linear(combined_dim, 512),  # 增加隐藏层维度
+            nn.Linear(combined_dim, 512),  # Increase hidden layer dimension
             nn.GELU(),
             nn.Dropout(dropout),
             nn.Linear(512, 256),
@@ -277,11 +276,11 @@ class CustomRegressionModel(nn.Module):
         )
 ```
 
-### 自定义绘图风格
+### Custom Plotting Style
 
 ```python
 def set_custom_style():
-    """自定义绘图样式"""
+    """Custom plotting style"""
     plt.rcParams.update({
         'font.size': 14,
         'axes.titlesize': 16,
@@ -296,59 +295,59 @@ def set_custom_style():
     })
 ```
 
-## 故障排除
+## Troubleshooting
 
-### 常见问题
+### Common Issues
 
-1. **CUDA 内存不足**
+1. **CUDA Out of Memory**
    ```bash
-   # 减小批量大小
+   # Reduce batch size
    --batch_size 8
    
-   # 减小序列长度
+   # Reduce sequence length
    --max_length 50
    
-   # 使用混合精度训练
-   # 在代码中添加 torch.cuda.amp.autocast()
+   # Use mixed precision training
+   # Add torch.cuda.amp.autocast() in code
    ```
 
-2. **目标列不存在**
+2. **Target Column Doesn't Exist**
    ```bash
-   # 检查 CSV 文件列名
+   # Check CSV file column names
    head -n 1 data/train.csv
    
-   # 确保 --target_col 参数正确
-   --target_col CRISPRscan  # 不是 CRISPRScan 或 CRISPR_SCAN
+   # Ensure --target_col parameter is correct
+   --target_col CRISPRscan  # Not CRISPRScan or CRISPR_SCAN
    ```
 
-3. **模型加载失败**
+3. **Model Loading Failed**
    ```bash
-   # 确保模型名称正确
+   # Ensure model name is correct
    --model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species
    
-   # 使用本地模型
+   # Use local model
    --model_name "./local_models/nucleotide-transformer"
    ```
 
-4. **绘图时警告**
+4. **Warnings During Plotting**
    ```bash
-   # 安装完整依赖
+   # Install complete dependencies
    pip install seaborn==0.12.2 matplotlib==3.7.1
    
-   # 更新到最新版本
+   # Update to latest versions
    pip install --upgrade matplotlib seaborn
    ```
 
-### 性能优化建议
+### Performance Optimization Suggestions
 
-- **大数据集**：使用全量微调，增大批量大小
-- **小数据集**：冻结骨干网络，使用数据增强
-- **长序列**：适当增大 `--max_length`，但注意内存使用
-- **多特征**：确保特征与目标列相关性高
+- **Large datasets**: Use full fine-tuning, increase batch size
+- **Small datasets**: Freeze backbone network, use data augmentation
+- **Long sequences**: Appropriately increase `--max_length`, but be mindful of memory usage
+- **Multiple features**: Ensure features have high correlation with target column
 
-## 引用
+## Citation
 
-如使用本框架，请引用：
+If using this framework, please cite:
 
 ```bibtex
 @software{nt_regression_framework,
@@ -369,27 +368,27 @@ def set_custom_style():
 }
 ```
 
-## 许可证
+## License
 
-本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
+This project uses the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## 贡献指南
+## Contribution Guidelines
 
-欢迎贡献！请遵循以下步骤：
+Contributions are welcome! Please follow these steps:
 
-1. Fork 本仓库
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
+1. Fork this repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 支持
+## Support
 
-如有问题，请：
-1. 查看 [Issues](https://github.com/yourusername/nucleotide-transformer-regression/issues) 页面
-2. 提交新的 Issue
-3. 或联系：your.email@example.com
+If you encounter issues, please:
+1. Check the [Issues](https://github.com/yourusername/nucleotide-transformer-regression/issues) page
+2. Submit a new Issue
+3. Or contact: your.email@example.com
 
 ---
 
-**科学、严谨、可重复** - 为生物信息学研究提供专业工具
+**Scientific, Rigorous, Reproducible** - Providing professional tools for bioinformatics research
