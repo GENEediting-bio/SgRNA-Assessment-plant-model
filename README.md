@@ -74,6 +74,7 @@ pip install -r requirements.txt
 #### 示例 CSV 格式
 
 以您提供的 `test.csv` 为例：
+| sequence | 特征... |
 |----------|------------|
 | AGTTGGTGATTATCTGTAGG | 6 |
 | GAGCATGTGTGCTACGTGCA | 7 |
