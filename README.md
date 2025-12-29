@@ -64,7 +64,6 @@ python finetune_nt_pytorch_multifeature.py /
 | `--train_csv` | str | **必需** | 训练集 CSV 文件路径 |
 | `--dev_csv` | str | **必需** | 验证集 CSV 文件路径 |
 | `--test_csv` | str | **必需** | 测试集 CSV 文件路径 |
-| `--target_col` | str | "CRISPRscan" | 目标列名称 |
 | `--batch_size` | int | 16 | 训练批量大小 |
 | `--epochs` | int | 10 | 训练轮数 |
 | `--lr` | float | 5e-5 | 学习率 |
@@ -74,10 +73,7 @@ python finetune_nt_pytorch_multifeature.py /
 
 ### 支持的预训练模型
 
-- `InstaDeepAI/nucleotide-transformer-500m-multi-species`
 - `InstaDeepAI/nucleotide-transformer-2.5b-multi-species`
-- `facebook/esm2_t6_8M_UR50D`（蛋白质序列）
-- 其他 HuggingFace 上的核苷酸/蛋白质预训练模型
 
 ## 输出文件
 
