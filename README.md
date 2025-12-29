@@ -184,11 +184,6 @@ sci_plots_pdf/
 | **Fig4_QuartileBoxplot.pdf** | 四分位箱线图 | 按真实值四分位数分组的预测性能 |
 | **Fig5_MetricsBar.pdf** | 指标柱状图 | 主要评估指标的柱状图展示 |
 
-**Fig1 示例：**
-![密度散点图示例](https://via.placeholder.com/600x500/FFFFFF/000000?text=Density+Scatter+Plot)
-
-**Fig2 示例：**
-![残差图示例](https://via.placeholder.com/600x400/FFFFFF/000000?text=Residual+Analysis)
 
 ## 评估指标解释
 
@@ -207,7 +202,7 @@ sci_plots_pdf/
 ```bash
 # 1. 训练模型
 python train_nt_regression.py \
-  --model_name "InstaDeepAI/nucleotide-transformer-500m-multi-species" \
+  --model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species \
   --train_csv ./data/train.csv \
   --dev_csv ./data/dev.csv \
   --test_csv ./data/test.csv \
@@ -217,7 +212,7 @@ python train_nt_regression.py \
 
 # 2. 评估模型
 python evaluate_nt_regression.py \
-  --model_name "InstaDeepAI/nucleotide-transformer-500m-multi-species" \
+  --model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species \
   --test_csv ./data/test.csv \
   --ckpt_path ./checkpoints/best_model.pth \
   --target_col CRISPRscan \
@@ -229,7 +224,7 @@ python evaluate_nt_regression.py \
 ```bash
 # 训练时自动使用其他数值列作为特征
 python train_nt_regression.py \
-  --model_name "InstaDeepAI/nucleotide-transformer-500m-multi-species" \
+  --model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species \
   --train_csv ./data/train.csv \
   --dev_csv ./data/dev.csv \
   --test_csv ./data/test.csv \
@@ -243,9 +238,7 @@ python train_nt_regression.py \
 ```bash
 #!/bin/bash
 # evaluate_all.sh
-MODEL_NAMES=("InstaDeepAI/nucleotide-transformer-500m-multi-species" 
-             "InstaDeepAI/nucleotide-transformer-2.5b-multi-species"
-             "facebook/esm2_t6_8M_UR50D")
+MODEL_NAMES=("InstaDeepAI/nucleotide-transformer-2.5b-multi-species")
 
 TARGETS=("CRISPRscan" "Doench2016_RuleSet2" "E-CRISP")
 
@@ -330,7 +323,7 @@ def set_custom_style():
 3. **模型加载失败**
    ```bash
    # 确保模型名称正确
-   --model_name "InstaDeepAI/nucleotide-transformer-500m-multi-species"
+   --model_name InstaDeepAI/nucleotide-transformer-2.5b-multi-species
    
    # 使用本地模型
    --model_name "./local_models/nucleotide-transformer"
