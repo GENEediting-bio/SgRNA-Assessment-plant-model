@@ -74,10 +74,10 @@ pip install -r requirements.txt
 #### 示例 CSV 格式
 
 以您提供的 `test.csv` 为例：
-|----------|------------|-----------------|-----------|----------|------------|-----------------|
-| AGTTGGTGATTATCTGTAGG | 6 | 0.83 | 0.663 | 0.62 | 0.78 | 0.2498 |
-| GAGCATGTGTGCTACGTGCA | 7 | 1 | 0.5952 | 0.61 | 0.8083 | 0 |
-| GTTGAACTTGGAGCAATGAT | 0 | 0.35 | 0.583 | 0.575 | 0.7133 | 0.3129 |
+|----------|------------|
+| AGTTGGTGATTATCTGTAGG | 6 |
+| GAGCATGTGTGCTACGTGCA | 7 |
+| GTTGAACTTGGAGCAATGAT | 0 |
 
 在这个例子中：
 - `sequence`：序列列（必需）
