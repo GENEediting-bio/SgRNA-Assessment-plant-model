@@ -34,7 +34,6 @@ pip install torch transformers pandas numpy scipy scikit-learn tqdm
 
 #### 示例 CSV 文件
 ```
-sequence,GC_content,length,CRISPRscan
 ATCGATCGAT,0.5,10,0.85
 GCTAGCTAGC,0.6,10,0.92
 TTTTAAAAAA,0.2,10,0.31
